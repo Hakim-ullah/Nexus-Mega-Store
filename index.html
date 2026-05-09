@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>NexusMega | Premium Shopping Experience</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Cabinet+Grotesk:wght@300;400;500;700;800;900&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+   <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="scroll-progress" style="width:0"></div>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- MOBILE SEARCH OVERLAY -->
+    <div class="mob-search-overlay" id="mobSearchOverlay">
+        <i class="fas fa-search" style="color:var(--muted);flex-shrink:0"></i>
+        <input class="search-input" id="mobSearchInput" type="text" placeholder="Search products, brands…">
+        <button class="mob-search-close" id="closeMobSearch"><i class="fas fa-times"></i></button>
+        <div class="search-dropdown" id="mobSearchDropdown"></div>
+    </div>
+
+    <header>
+        <nav class="navbar">
+            <button class="mob-menu-btn" id="mobMenuBtn"><i class="fas fa-bars"></i></button>
+            <a href="#" class="logo">
+                <div class="logo-icon"><i class="fas fa-bolt"></i></div>
+                Nexus<em>Mega</em>
+            </a>
+            <div class="nav-search">
+                <i class="fas fa-search search-icon-left"></i>
+                <input class="search-input" id="searchInput" type="text"
+                    placeholder="Search products, brands, categories…">
+                <div class="search-clear" id="searchClear"><i class="fas fa-times"></i></div>
+                <div class="search-dropdown" id="searchDropdown"></div>
+            </div>
+            <div class="nav-actions">
+                <button class="mob-search-btn" id="mobSearchBtn" title="Search"><i class="fas fa-search"></i></button>
+                <button class="nav-btn theme-btn" id="themeBtn" title="Toggle theme"><i
+                        class="fas fa-moon"></i></button>
+                <button class="nav-btn" id="compareNavBtn" title="Compare"><i class="fas fa-exchange-alt"></i></button>
+                <button class="nav-btn" id="wishBtn" title="Wishlist">
+                    <i class="fas fa-heart"></i>
+                    <span class="badge wish" id="wishCount" style="display:none">0</span>
+                </button>
+                <button class="nav-btn" id="cartNavBtn" title="Cart">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="badge" id="cartCount" style="display:none">0</span>
+                </button>
+                <div class="user-menu">
+                    <div class="user-avatar" id="userAvatarBtn">JD</div>
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="ud-header">
+                            <div class="name">John Doe</div>
+                            <div class="email">john@nexusmega.com</div>
+                        </div>
+                        <div class="ud-item"><i class="fas fa-user"></i>My Profile</div>
+                        <div class="ud-item"><i class="fas fa-shopping-bag"></i>My Orders</div>
+                        <div class="ud-item"><i class="fas fa-heart"></i>Wishlist</div>
+                        <div class="ud-item"><i class="fas fa-map-marker-alt"></i>Addresses</div>
+                        <div class="ud-item"><i class="fas fa-bell"></i>Notifications</div>
+                        <hr class="ud-divider">
+                        <div class="ud-item" style="color:var(--brand)"><i class="fas fa-sign-out-alt"></i>Sign Out
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="overlay" id="overlay"></div>
+
+    <!-- MOBILE NAV DRAWER -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mob-nav-head">
+            <div class="logo" style="font-size:1.2rem">
+                <div class="logo-icon" style="width:28px;height:28px;font-size:.76rem"><i class="fas fa-bolt"></i></div>
+                Nexus<em>Mega</em>
+            </div>
+            <button class="close-drawer" id="closeMobileNav"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="mob-nav-list">
+            <div class="mob-nav-link active" onclick="closeMobileNav();openCategory('all')"><i
+                    class="fas fa-home"></i>Home</div>
+            <div class="mob-nav-link" onclick="closeMobileNav();openCategory('electronics')"><i
+                    class="fas fa-laptop"></i>Electronics</div>
+            <div class="mob-nav-link" onclick="closeMobileNav();openCategory('fashion')"><i
+                    class="fas fa-tshirt"></i>Fashion</div>
+            <div class="mob-nav-link" onclick="closeMobileNav();openCategory('home')"><i class="fas fa-couch"></i>Home &
+                Garden</div>
+            <div class="mob-nav-link" onclick="closeMobileNav();openCategory('sports')"><i
+                    class="fas fa-dumbbell"></i>Sports</div>
+            <div class="mob-nav-link" onclick="closeMobileNav();openCategory('books')"><i class="fas fa-book"></i>Books
+            </div>
+            <hr class="mob-nav-divider">
+            <div class="mob-nav-link" onclick="closeMobileNav();openWishlist()"><i class="fas fa-heart"></i>Wishlist
+            </div>
+            <div class="mob-nav-link" onclick="closeMobileNav();openCart()"><i class="fas fa-shopping-bag"></i>Cart
+            </div>
+            <hr class="mob-nav-divider">
+            <div class="mob-nav-link" onclick="toggleTheme();closeMobileNav()"><i
+                    class="fas fa-circle-half-stroke"></i>Toggle Theme</div>
+        </div>
+    </div>
+
+    <div class="page-wrap">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-sec">
+                <div class="sidebar-title"><i class="fas fa-shapes"></i>Categories</div>
+                <div id="sidebarCats"></div>
+            </div>
+            <div class="sidebar-sec">
+                <div class="sidebar-title"><i class="fas fa-dollar-sign"></i>Price Range</div>
+                <div style="position:relative;margin:0 4px">
+                    <div class="price-track">
+                        <div class="price-fill" id="priceFill"></div>
+                        <input class="price-slider" type="range" id="priceSlider" min="0" max="5000" value="5000"
+                            step="50">
+                    </div>
+                    <div class="price-labels"><span>$0</span><span id="priceVal">$5,000+</span></div>
+                </div>
+            </div>
+            <div class="sidebar-sec">
+                <div class="sidebar-title"><i class="fas fa-star"></i>Min Rating</div>
+                <div id="ratingFilter"></div>
+            </div>
+            <div class="sidebar-sec">
+                <div class="sidebar-title"><i class="fas fa-tag"></i>Discount</div>
+                <div id="discountFilter"></div>
+            </div>
+            <div class="sidebar-sec">
+                <div class="sidebar-title"><i class="fas fa-certificate"></i>Brands</div>
+                <div class="brand-chips" id="brandFilter"></div>
+            </div>
+        </aside>
+
+        <main class="main" id="mainContent">
+            <!-- HERO -->
+            <section class="hero">
+                <div class="hero-bg"></div>
+                <div class="hero-grid-lines"></div>
+                <div class="hero-content">
+                    <div class="hero-eyebrow"><i class="fas fa-fire"></i>&nbsp;Summer Sale — Up to 50% OFF</div>
+                    <h1 class="hero-title">Discover <span>Premium</span><br>Products Online</h1>
+                    <p class="hero-sub">100+ curated products from top global brands. Fast delivery, hassle-free
+                        returns, exceptional quality guaranteed.</p>
+                    <div class="hero-btns">
+                        <button class="btn btn-primary btn-lg" onclick="scrollToProducts()"><i
+                                class="fas fa-shopping-bag"></i>Shop Now</button>
+                        <button class="btn btn-lg"
+                            style="background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.18)"
+                            onclick="openCategory('all')"><i class="fas fa-compass"></i>Browse All</button>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <div class="num">100+</div>
+                            <div class="lbl">Products</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="num">50k+</div>
+                            <div class="lbl">Customers</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="num">4.8★</div>
+                            <div class="lbl">Avg Rating</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="num">Free</div>
+                            <div class="lbl">Ship $100+</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=700&auto=format&q=80"
+                            alt="hero">
+                    </div>
+                    <div class="hero-badge-float b1">
+                        <div class="float-num">50k+</div>Happy Customers
+                    </div>
+                    <div class="hero-badge-float b2"><i class="fas fa-shield-alt"></i>&nbsp;Secure Shopping</div>
+                </div>
+            </section>
+
+            <!-- CATEGORY TABS -->
+            <div class="cat-tabs" id="catTabs"></div>
+
+            <!-- FEATURED BANNER -->
+            <div class="featured-banner" id="featuredBanner">
+                <div class="feat-card" onclick="openCategory('electronics')">
+                    <img src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?w=800&auto=format&q=80"
+                        alt="">
+                    <div class="feat-card-body">
+                        <div class="feat-card-tag">🔥 Flash Deal</div>
+                        <div class="feat-card-title">Latest Electronics</div>
+                        <div class="feat-card-price">Up to 30% OFF</div>
+                    </div>
+                </div>
+                <div class="feat-card" onclick="openCategory('fashion')">
+                    <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&auto=format&q=80"
+                        alt="">
+                    <div class="feat-card-body">
+                        <div class="feat-card-tag">✨ New Collection</div>
+                        <div class="feat-card-title">Fashion &amp; Style</div>
+                        <div class="feat-card-price">From $29.99</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DEAL TIMER -->
+            <div class="deal-banner">
+                <div class="deal-left">
+                    <div class="deal-label"><i class="fas fa-bolt"></i>&nbsp;Flash Sale Active</div>
+                    <div class="deal-title">Today's Lightning Deals</div>
+                    <div class="deal-sub">Grab them before they're gone!</div>
+                </div>
+                <div class="timer">
+                    <div class="timer-unit">
+                        <div class="timer-box" id="t-h">00</div>
+                        <div class="timer-lbl">Hours</div>
+                    </div>
+                    <div class="timer-sep">:</div>
+                    <div class="timer-unit">
+                        <div class="timer-box" id="t-m">00</div>
+                        <div class="timer-lbl">Mins</div>
+                    </div>
+                    <div class="timer-sep">:</div>
+                    <div class="timer-unit">
+                        <div class="timer-box" id="t-s">00</div>
+                        <div class="timer-lbl">Secs</div>
+                    </div>
+                </div>
+                <div class="deal-right">
+                    <button class="btn btn-primary" onclick="openCategory('all')"><i class="fas fa-bolt"></i>&nbsp;View
+                        Deals</button>
+                </div>
+            </div>
+
+            <!-- FILTERS BAR -->
+            <div class="filters-bar" id="filtersBar">
+                <span class="filter-lbl">Sort:</span>
+                <select class="filter-select" id="sortSel">
+                    <option value="featured">Featured</option>
+                    <option value="price-asc">Price: Low → High</option>
+                    <option value="price-desc">Price: High → Low</option>
+                    <option value="rating">Best Rated</option>
+                    <option value="newest">Newest</option>
+                    <option value="discount">Biggest Discount</option>
+                </select>
+                <div class="filter-sep"></div>
+                <span class="filter-lbl">Show:</span>
+                <select class="filter-select" id="perPageSel">
+                    <option value="12">12</option>
+                    <option value="24">24</option>
+                    <option value="48">48</option>
+                </select>
+                <div class="filter-sep"></div>
+                <div class="view-toggle">
+                    <div class="view-btn active" id="gridViewBtn" onclick="setView('grid')"><i class="fas fa-th"></i>
+                    </div>
+                    <div class="view-btn" id="listViewBtn" onclick="setView('list')"><i class="fas fa-list"></i></div>
+                </div>
+                <div class="active-tags" id="activeTags"></div>
+                <span class="results-num" id="resultsNum"></span>
+                <button class="btn btn-ghost btn-sm" id="mobileFilterBtn" style="display:none"><i
+                        class="fas fa-sliders-h"></i>&nbsp;Filters</button>
+            </div>
+
+            <div id="productsGrid" class="products-grid"></div>
+            <div class="pagination" id="pagination"></div>
+
+            <!-- RECENTLY VIEWED -->
+            <div class="recently-sect" id="recentSect" style="display:none">
+                <div class="sec-head">
+                    <h2 class="sec-title">Recently Viewed</h2>
+                    <span class="sec-link" onclick="clearRecent()">Clear All <i class="fas fa-times"></i></span>
+                </div>
+                <div class="recently-scroll" id="recentScroll"></div>
+            </div>
+
+            <!-- NEWSLETTER -->
+            <div class="newsletter">
+                <h2>Join 50,000+ Smart Shoppers</h2>
+                <p>Subscribe for exclusive deals, early access to sales, and member-only discounts. Use code
+                    <strong>HAKIMULLAH47</strong> for 15% off!</p>
+                <div class="newsletter-form">
+                    <input class="nl-input" type="email" id="nlEmail" placeholder="Enter your email address…">
+                    <button class="nl-btn" onclick="subscribeNL()">Subscribe Free</button>
+                </div>
+            </div>
+
+            <footer>
+                <div class="footer-inner">
+                    <div class="footer-grid">
+                        <div class="footer-brand">
+                            <div class="logo">
+                                <div class="logo-icon"><i class="fas fa-bolt"></i></div>Nexus<em>Mega</em>
+                            </div>
+                            <p>Your one-stop destination for premium products at unbeatable prices. Shop smarter, live
+                                better.</p>
+                            <div class="footer-socials">
+                                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+                                <a href="#" class="social-btn"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                        <div class="footer-col">
+                            <h4>Shop</h4>
+                            <ul>
+                                <li><a href="#">Electronics</a></li>
+                                <li><a href="#">Fashion</a></li>
+                                <li><a href="#">Home &amp; Garden</a></li>
+                                <li><a href="#">Sports</a></li>
+                                <li><a href="#">Books</a></li>
+                                <li><a href="#">Hot Deals</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-col">
+                            <h4>Support</h4>
+                            <ul>
+                                <li><a href="#">Help Center</a></li>
+                                <li><a href="#">Track Order</a></li>
+                                <li><a href="#">Returns</a></li>
+                                <li><a href="#">Size Guide</a></li>
+                                <li><a href="#">Contact Us</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-col">
+                            <h4>Company</h4>
+                            <ul>
+                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">Careers</a></li>
+                                <li><a href="#">Blog</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Terms of Service</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        <span>© 2025 NexusMega. All rights reserved.</span>
+                        <div class="pay-badges">
+                            <span style="font-size:.78rem;color:var(--muted)">We accept:</span>
+                            <span class="pay-badge">VISA</span><span class="pay-badge">MC</span>
+                            <span class="pay-badge">AMEX</span><span class="pay-badge">PayPal</span>
+                            <span class="pay-badge">Crypto</span>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- CART DRAWER -->
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="drawer-head">
+            <div class="drawer-title"><i class="fas fa-shopping-bag"></i>Your Cart<span class="drawer-count-badge"
+                    id="cartDrawerCount">0</span></div>
+            <button class="close-drawer" id="closeCartBtn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-body" id="cartBody"></div>
+        <div class="cart-foot" id="cartFoot"></div>
+    </div>
+
+    <!-- WISHLIST DRAWER -->
+    <div class="wishlist-drawer" id="wishlistDrawer">
+        <div class="drawer-head">
+            <div class="drawer-title"><i class="fas fa-heart"></i>Wishlist<span class="drawer-count-badge"
+                    id="wlDrawerCount">0</span></div>
+            <button class="close-drawer" id="closeWlBtn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="wl-body" id="wlBody"></div>
+    </div>
+
+    <!-- COMPARE BAR -->
+    <div class="compare-bar" id="compareBar">
+        <div class="compare-slots" id="compareSlots"></div>
+        <div style="margin-left:8px">
+            <div class="cmp-lbl">Compare<small id="cmpCount">0/3 items</small></div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="doCompare()"><i
+                class="fas fa-chart-bar"></i>&nbsp;Compare</button>
+        <button class="btn btn-ghost btn-sm" onclick="clearCompare()"><i class="fas fa-times"></i></button>
+    </div>
+
+    <!-- PRODUCT MODAL -->
+    <div class="modal-overlay" id="productModal">
+        <div class="modal-box" id="productModalBox">
+            <button class="modal-close" id="closeProductModal"><i class="fas fa-times"></i></button>
+            <div id="productModalContent"></div>
+        </div>
+    </div>
+
+    <!-- CHECKOUT MODAL -->
+    <div class="modal-overlay" id="checkoutModal">
+        <div class="modal-box checkout-modal" id="checkoutModalBox">
+            <button class="modal-close" id="closeCheckoutModal"><i class="fas fa-times"></i></button>
+            <div id="checkoutContent"></div>
+        </div>
+    </div>
+
+    <!-- COMPARE MODAL -->
+    <div class="modal-overlay" id="compareModal">
+        <div class="modal-box" style="max-width:1000px" id="compareModalBox">
+            <button class="modal-close" id="closeCompareModal"><i class="fas fa-times"></i></button>
+            <div id="compareContent"></div>
+        </div>
+    </div>
+
+    <!-- MOBILE FILTER SHEET -->
+    <div class="filter-sheet" id="filterSheet">
+        <div class="sheet-handle"></div>
+        <h3 style="font-family:'Clash Display',sans-serif;font-weight:700;margin-bottom:18px">Filters</h3>
+        <div id="mobileFilterContent"></div>
+        <button class="btn btn-primary" style="width:100%;margin-top:18px" onclick="closeMobileFilter()">Apply
+            Filters</button>
+    </div>
+
+    <!-- TOAST STACK -->
+    <div class="toast-stack" id="toastStack"></div>
+
+    <!-- MOBILE BOTTOM NAV -->
+    <nav class="mob-bottom-nav">
+        <button class="mob-nav-item active" onclick="scrollToTop()"><i
+                class="fas fa-home"></i><span>Home</span></button>
+        <button class="mob-nav-item" onclick="openCategory('all')"><i
+                class="fas fa-store"></i><span>Shop</span></button>
+        <button class="mob-nav-item" id="searchMobBtn"><i class="fas fa-search"></i><span>Search</span></button>
+        <button class="mob-nav-item" onclick="openWishlist()"><i class="fas fa-heart"></i><span>Saved</span><span
+                class="mob-nav-count" id="mobWlCount" style="display:none">0</span></button>
+        <button class="mob-nav-item" onclick="openCart()"><i class="fas fa-shopping-bag"></i><span>Cart</span><span
+                class="mob-nav-count" id="mobCartCount" style="display:none">0</span></button>
+    </nav>
+
+    <button class="back-to-top" id="backToTop" onclick="scrollToTop()"><i class="fas fa-arrow-up"></i></button>
+
+    
+    <script src="script.js"></script>
+</body>
+</html>
